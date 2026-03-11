@@ -1,0 +1,29 @@
+:root {
+    --header-bg: #4E5BA6;
+    --header-fg: #FFFFFF;
+}
+
+body {
+    margin: 0;
+}
+
+h1 {
+    margin: 0;
+}
+
+/*
+------
+HEADER
+------
+*/
+
+#header nav {
+    background-color: var(--header-bg);
+}
+
+#header nav h1 {
+    color: var(--header-fg);
+    padding: 14px 0;
+    margin-left: 130px;
+    font-size: 24px;
+}
