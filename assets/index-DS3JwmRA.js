@@ -138,6 +138,7 @@ class LottoMachine {
     return null;
   }
   calculateMatchResult(winningNumber, bonusNumber) {
+    this.#matchResult = new Map(LOTTO_CONFIG.map(({ rank }) => [rank, 0]));
     this.#lottos.forEach((lotto) => {
       const lottoNumbers = lotto.getLottoNumber();
       const matchCount = (/* @__PURE__ */ new Set([...lottoNumbers])).intersection(/* @__PURE__ */ new Set([...winningNumber])).size;
@@ -305,13 +306,15 @@ const HIDE_CONTENT_SELECTORS = [
 const Controller = {
   lottoMachine: null,
   submitPurchaseAmount(amount) {
-    try {
-      Validator.validatePurchaseAmount(amount);
-      this.lottoMachine = new LottoMachine(amount);
-      View.renderPurchaseLotto(this.lottoMachine.getLottos());
-      View.convertHiddenState(HIDE_CONTENT_SELECTORS);
-    } catch (err) {
-      View.renderPurchaseAmountErrorMessage(err.message);
+    if (!this.lottoMachine) {
+      try {
+        Validator.validatePurchaseAmount(amount);
+        this.lottoMachine = new LottoMachine(amount);
+        View.renderPurchaseLotto(this.lottoMachine.getLottos());
+        View.convertHiddenState(HIDE_CONTENT_SELECTORS);
+      } catch (err) {
+        View.renderPurchaseAmountErrorMessage(err.message);
+      }
     }
   },
   submitWinningNumbers(winningLottoNumber, bonusNumber) {
